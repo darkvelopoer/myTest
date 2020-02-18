@@ -10,9 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
-import com.skt.omp.common.util.DataBox;
+//import com.skt.omp.common.util.DataBox;
 
-import oracle.sql.DATE;
+//import oracle.sql.DATE;
 //import skt.tmall.common.escrow.ApiTopupConstDef;
 
 //import java.util.Properties;
@@ -29,7 +29,9 @@ import com.jcraft.jsch.SftpException;*/
 
 public class FtpTest {
 	public static void main(String args[]) {
-
+		//uploadFile();
+		//downloadFile();
+		
 		//orderlogistic.jsp tesco loop
 		int x = 1;
 		for(int i=1; i <= 23; i++){
@@ -191,35 +193,108 @@ public class FtpTest {
 		//}
 */	}
 	
-/*	private static String removeSeparatorCharacters(String param){
-		param = StringUtils.remove(param, "\\|");
-		return param;
-	}*/
-	
-	public static boolean isPalindromString(String text){ 
-		String reverse = reverse(text); 
-		if(text.equals(reverse)){
-			return true; 
-		} 
-		return false; 
-	}
 
-	public static String reverse(String input){
-		if(input == null || input.isEmpty()){
-			return input; 
-		} 
-		return input.charAt(input.length()- 1) + reverse(input.substring(0, input.length() - 1)); 
-	}
 	
-    public static BigDecimal calcNetOrdAmt(double rate, String buyAmt){
-		BigDecimal orgAmt = new BigDecimal(buyAmt);
-		BigDecimal dscAmt = (orgAmt.multiply(new BigDecimal(rate))).divide(new BigDecimal(100));
-		return roundDown(orgAmt.subtract(dscAmt),0);
-    }
+
     
-    public static BigDecimal roundDown(BigDecimal a, int scale)
-    {
-        return a.setScale(scale, RoundingMode.DOWN);
-    }
 
+	private static void downloadFile(){
+		/*Session session = null; 
+		ChannelSftp channel = null;
+		try{
+			String privateKey = "D:\\data1\\id_rsa";
+			String user = "elevenstreet";
+			String host = "ads.qredit.myboost.id";
+			Integer port = 22;
+	
+			JSch jsch = new JSch();
+			jsch.addIdentity(privateKey, "qhdks!");
+	
+			session = jsch.getSession(user, host, port);
+	
+	
+			Properties config = new Properties();
+			config.put("StrictHostKeyChecking", "no");
+	
+			session.setConfig(config);
+			session.setTimeout(5000);
+			session.connect();
+	
+			channel = (ChannelSftp) session.openChannel("sftp");
+			channel.connect();
+			Vector<ChannelSftp.LsEntry> remoteOutboxList = channel.ls("/OUTBOX/");
+			//remoteOutboxList.addAll(channel.ls("*.setl"));
+			//remoteOutboxList.addAll(channel.ls("*.cntl"));
+			//BoostConstDef.BOOST_SETTLEMENT_11ST_OUTBOX
+			//BOOST_SETTLEMENT_11ST_OUTBOX
+			//BOOST_SETTLEMENT_11ST_OUTBOX_ARCHIVE
+			if (remoteOutboxList.isEmpty()) {
+                System.out.println("No file exist in the specified sftp folder location.");
+            }
+			else{
+				for (ChannelSftp.LsEntry entry : remoteOutboxList) {
+	                if(entry.getFilename().contains(".setl") || entry.getFilename().contains(".ack")){
+	                	System.out.println("FileName: " + entry.getFilename());
+	                	
+	                	//try {
+	                        // Downloading the file from sftp to the folder path
+	                    	channel.get("/OUTBOX/" + entry.getFilename(), "D:/data1/axiata/OUTBOX/" + entry.getFilename());
+	                    //} catch (SftpException sftpException) {
+	                    	
+	                     //   System.out.println(sftpException.getMessage());//("Failed to download the file the sftp folder location.");                    
+	                    //}  
+	                }
+	            }
+			}
+		}
+		catch (JSchException e) {
+			//send sms
+			//log.error(e.getMessage());
+			System.out.println(e.getMessage());
+		}
+		catch (SftpException e) {
+			//send sms
+			//log.error(e.getMessage());
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e){
+			System.out.println(e.getMessage());
+		}finally {
+	        if(channel != null && channel.isConnected()) 
+	        	channel.disconnect();
+	        if(session != null && session.isConnected()) 
+	        	session.disconnect();
+	    }*/
+	}
+	
+	private static void uploadFile(){
+		/*try{
+			String privateKey = "D:\\data1\\id_rsa";
+			String user = "elevenstreet";
+			String host = "ads.qredit.myboost.id";
+			Integer port = 22;
+
+			JSch jsch = new JSch();
+			jsch.addIdentity(privateKey, "qhdks!");
+
+			Session session = jsch.getSession(user, host, port);
+
+
+			Properties config = new Properties();
+			config.put("StrictHostKeyChecking", "no");
+
+			session.setConfig(config);
+			session.setTimeout(5000);
+			session.connect();
+
+			ChannelSftp channel = (ChannelSftp) session.openChannel("sftp");
+			channel.connect();
+			channel.ls("/");
+
+			channel.put("D:\\data1\\20180612000001.setl", "/INBOX/20180612000001.setl");
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+			}*/
+	}
 }
