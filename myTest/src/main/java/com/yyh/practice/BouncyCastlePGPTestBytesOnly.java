@@ -104,7 +104,7 @@ public class BouncyCastlePGPTestBytesOnly {
      * @exception NoSuchProviderException
      */
     @SuppressWarnings("resource")
-	public static byte[] decrypt(byte[] encrypted, InputStream secretKeyInputStream, char[] password)
+	public static byte[] decryptPgp(byte[] encrypted, InputStream secretKeyInputStream, char[] password)
             throws IOException, PGPException, NoSuchProviderException {
         InputStream encryptedInputStream = new ByteArrayInputStream(encrypted);
         encryptedInputStream = PGPUtil.getDecoderStream(encryptedInputStream);
@@ -188,7 +188,7 @@ public class BouncyCastlePGPTestBytesOnly {
      * @exception PGPException
      * @exception NoSuchProviderException
      */
-    public static byte[] encrypt(byte[] clearData, PGPPublicKey encKey,
+    public static byte[] encryptPgp(byte[] clearData, PGPPublicKey encKey,
             String fileName,boolean withIntegrityCheck, boolean armor)
             throws IOException, PGPException, NoSuchProviderException {
         if (fileName == null) {
@@ -291,15 +291,12 @@ public class BouncyCastlePGPTestBytesOnly {
         return bytes;
     }
 
-    public static String encryptToFile(String inputStr, String pubKeyFile, String outFile) throws Exception { //
+    public static String encryptToFilePgp(String inputStr, String pubKeyFile, String outFile) throws Exception { //
         Security.addProvider(new BouncyCastleProvider());
-
         byte[] original = inputStr.getBytes();
-
         FileInputStream pubKey = new FileInputStream(pubKeyFile);
-        byte[] encrypted = encrypt(original, readPublicKey(pubKey), null,
+        byte[] encrypted = encryptPgp(original, readPublicKey(pubKey), null,
                 true, true);
-
         FileOutputStream dfis = new FileOutputStream(outFile);
         dfis.write(encrypted);
         dfis.close();
@@ -307,31 +304,31 @@ public class BouncyCastlePGPTestBytesOnly {
         return new String(encrypted);
     }
     
-    public static String encryptToBytes(String inputStrToEncrypt, String pubKeyFile) throws Exception { 
+    public static String encryptToBytesPgp(String inputStrToEncrypt, String pubKeyFile) throws Exception { 
         Security.addProvider(new BouncyCastleProvider());
         byte[] original = inputStrToEncrypt.getBytes();
         FileInputStream pubKey = new FileInputStream(pubKeyFile);
-        byte[] encrypted = encrypt(original, readPublicKey(pubKey), null, true, true);
+        byte[] encrypted = encryptPgp(original, readPublicKey(pubKey), null, true, true);
 
         return new String(encrypted);
     }
 
-    public static String decryptFromFile(String passphrase, String secKeyFile, String encryptedFile) throws Exception {
+    public static String decryptFromFilePgp(String passphrase, String secKeyFile, String encryptedFile) throws Exception {
         Security.addProvider(new BouncyCastleProvider());
 
         byte[] encFromFile = getBytesFromFile(new File(encryptedFile));
         FileInputStream secKey = new FileInputStream(secKeyFile);
         //FileInputStream pubKey = new FileInputStream(pubKeyFile);
-        byte[] decrypted = decrypt(encFromFile, secKey, passphrase.toCharArray());
+        byte[] decrypted = decryptPgp(encFromFile, secKey, passphrase.toCharArray());
 
         return new String(decrypted);
     }
     
-    public static String decryptFromBytes(String passphrase, String secKeyFile, String encryptedString) throws Exception {
+    public static String decryptFromBytesPgp(String passphrase, String secKeyFile, String encryptedString) throws Exception {
         Security.addProvider(new BouncyCastleProvider());
         byte[] encFromBytes = encryptedString.getBytes();
         FileInputStream secKey = new FileInputStream(secKeyFile);
-        byte[] decrypted = decrypt(encFromBytes, secKey, passphrase.toCharArray());
+        byte[] decrypted = decryptPgp(encFromBytes, secKey, passphrase.toCharArray());
 
         return new String(decrypted);
     }
@@ -343,9 +340,9 @@ public class BouncyCastlePGPTestBytesOnly {
         //String decrypted = decryptFromFile("prestomall", "files//0x3183541F-sec.asc", "files//enc-file.asc"); //("open sesame", "secret.asc", "enc.asc");
         //System.out.println("\ndecrypted data = '" + decrypted + "'");
 
-        String encrypted = encryptToBytes("Please encrypt this message", "files//0x3183541F-pub.asc"); //, "files//enc-file.asc" ("Hello world","pub.asc","enc.asc");
+        String encrypted = encryptToBytesPgp("Please encrypt this message", "files//0x3183541F-pub.asc"); //, "files//enc-file.asc" ("Hello world","pub.asc","enc.asc");
         System.out.println("\nencrypted data = \n'" + new String(encrypted) + "'");
-        String decrypted = decryptFromBytes("prestomall", "files//0x3183541F-sec.asc", encrypted); 
+        String decrypted = decryptFromBytesPgp("prestomall", "files//0x3183541F-sec.asc", encrypted); 
         System.out.println("\ndecrypted data = \n'" + decrypted + "'");
     }
 }

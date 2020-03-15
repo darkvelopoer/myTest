@@ -13,6 +13,8 @@ import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.myapps.examples.dto.ProductDataObj;
+
 public class CalTest {
 	public static void main(String args[]) throws IOException {
 
@@ -29,7 +31,7 @@ public class CalTest {
 		 * str.replace("-", "") + ss.replace(":", ""); System.out.println(str2);
 		 */
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss.SSS");
+		/*SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss.SSS");
 		try {
 			Date date1 = sdf.parse("20200210142011.001");
 			System.out.println(date1);
@@ -40,12 +42,13 @@ public class CalTest {
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 
 		//double d = Double.parseDouble("123.20") * 100;
 		//int i = (int) d;
 		//System.out.println(i);
-
+		
+		checkObjSame();
 	}
 
 	private static Date getEndOfDay() {
@@ -78,4 +81,15 @@ public class CalTest {
 		return input.charAt(input.length() - 1) + reverse(input.substring(0, input.length() - 1));
 	}
 
+	private static void checkObjSame() {
+		ProductDataObj pdo = new ProductDataObj();
+		pdo.setStoreId("store1");
+		pdo.setProductId("prod1");
+		
+		ProductDataObj pdo2 = new ProductDataObj();
+		pdo2.setStoreId("store1");
+		pdo2.setProductId("prod1");
+		
+		System.out.println(pdo.equals(pdo2));
+	}
 }
