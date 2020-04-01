@@ -44,7 +44,7 @@ public class CalTest {
 			e.printStackTrace();
 		}*/
 
-		//double d = Double.parseDouble("123.20") * 100;
+		double d = Double.parseDouble("123.20") * 100;
 		//int i = (int) d;
 		//System.out.println(i);
 		
